@@ -1,0 +1,854 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Proyecto de Investigación de Negocios Ilícitos</title>
+    <style>
+        /* Reset y configuración general */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        /* Estilos del cuerpo */
+        body {
+            background-color: #F5F5DC; /* Beige */
+            color: #333;
+            display: flex;
+            min-height: 100vh;
+            line-height: 1.6;
+        }
+
+        /* ===== BARRA LATERAL ===== */
+        .sidebar {
+            width: 250px;
+            background: linear-gradient(135deg, #2C3E50 0%, #34495E 100%);
+            color: white;
+            padding: 20px 0;
+            height: 100vh;
+            position: fixed;
+            overflow-y: auto;
+            box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+        }
+
+        .sidebar-header {
+            padding: 0 20px 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            margin-bottom: 20px;
+        }
+
+        .sidebar-header h1 {
+            font-size: 1.4rem;
+            font-weight: 500;
+            line-height: 1.4;
+            color: #ECF0F1;
+        }
+
+        .menu-item {
+            padding: 15px 20px;
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border-left: 4px solid transparent;
+            margin: 5px 10px;
+            border-radius: 4px;
+        }
+
+        .menu-item:hover {
+            background-color: rgba(52, 73, 94, 0.8);
+            border-left-color: #1ABC9C;
+            transform: translateX(5px);
+        }
+
+        .menu-item.active {
+            background-color: #1ABC9C;
+            font-weight: bold;
+            border-left-color: #16A085;
+            box-shadow: 0 2px 8px rgba(26, 188, 156, 0.3);
+        }
+
+        .menu-item i {
+            margin-right: 12px;
+            font-size: 1.2rem;
+            width: 20px;
+            text-align: center;
+        }
+
+        /* ===== CONTENIDO PRINCIPAL ===== */
+        .content {
+            flex: 1;
+            margin-left: 250px;
+            padding: 40px;
+            background-color: #F5F5DC;
+            min-height: 100vh;
+        }
+
+        .section {
+            display: none;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+
+        .section.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { 
+                opacity: 0; 
+                transform: translateY(20px);
+            }
+            to { 
+                opacity: 1; 
+                transform: translateY(0);
+            }
+        }
+
+        /* ===== ENCABEZADOS ===== */
+        h2 {
+            margin-bottom: 25px;
+            color: #2C3E50;
+            border-bottom: 2px solid #1ABC9C;
+            padding-bottom: 12px;
+            font-weight: 600;
+            font-size: 1.8rem;
+        }
+
+        h3 {
+            color: #2C3E50;
+            margin-bottom: 15px;
+            font-weight: 600;
+            font-size: 1.3rem;
+        }
+
+        /* ===== TARJETAS ===== */
+        .card {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+            padding: 25px;
+            margin-bottom: 25px;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        .card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
+        }
+
+        .card p {
+            color: #666;
+            margin-bottom: 15px;
+            line-height: 1.7;
+        }
+
+        /* ===== BOTONES ===== */
+        .btn {
+            background: linear-gradient(135deg, #1ABC9C 0%, #16A085 100%);
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+            font-size: 0.95rem;
+            box-shadow: 0 2px 8px rgba(26, 188, 156, 0.3);
+        }
+
+        .btn:hover {
+            background: linear-gradient(135deg, #16A085 0%, #149174 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(26, 188, 156, 0.4);
+        }
+
+        .btn:active {
+            transform: translateY(0);
+        }
+
+        /* ===== FORMULARIOS ===== */
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: #2C3E50;
+            font-size: 0.95rem;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #E8E8E8;
+            border-radius: 6px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            background-color: #FAFAFA;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: #1ABC9C;
+            background-color: white;
+            box-shadow: 0 0 0 3px rgba(26, 188, 156, 0.1);
+        }
+
+        textarea.form-control {
+            min-height: 150px;
+            resize: vertical;
+            line-height: 1.5;
+        }
+
+        /* ===== FORO ===== */
+        .forum-post {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 3px 12px rgba(0, 0, 0, 0.08);
+            padding: 25px;
+            margin-bottom: 20px;
+            transition: all 0.3s ease;
+            border-left: 4px solid #1ABC9C;
+        }
+
+        .forum-post:hover {
+            transform: translateX(5px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .post-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 12px;
+            color: #7F8C8D;
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+
+        .post-content {
+            line-height: 1.7;
+            color: #2C3E50;
+        }
+
+        /* ===== ÁREA DE SUBIDA ===== */
+        .upload-area {
+            border: 2px dashed #1ABC9C;
+            border-radius: 12px;
+            padding: 35px 25px;
+            text-align: center;
+            margin-bottom: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background-color: rgba(26, 188, 156, 0.05);
+        }
+
+        .upload-area:hover {
+            background-color: rgba(26, 188, 156, 0.1);
+            border-color: #16A085;
+            transform: scale(1.02);
+        }
+
+        .upload-icon {
+            font-size: 3.5rem;
+            color: #1ABC9C;
+            margin-bottom: 15px;
+            transition: all 0.3s ease;
+        }
+
+        .upload-area:hover .upload-icon {
+            transform: scale(1.1);
+        }
+
+        /* ===== VIDEOS ===== */
+        .video-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 25px;
+            margin-top: 25px;
+        }
+
+        .video-item {
+            background-color: white;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s ease;
+            border: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        .video-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
+        }
+
+        .video-item h3 {
+            color: #2C3E50;
+            margin-bottom: 12px;
+            font-size: 1.2rem;
+        }
+
+        .video-placeholder {
+            background: linear-gradient(135deg, #BDC3C7 0%, #95A5A6 100%);
+            height: 200px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 15px;
+            border-radius: 8px;
+            color: white;
+            font-weight: 500;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .video-placeholder iframe {
+            border-radius: 8px;
+            width: 100%;
+            height: 100%;
+        }
+
+        .video-placeholder::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+
+        /* ===== PANEL DE ADMINISTRACIÓN ===== */
+        .admin-panel {
+            background-color: white;
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            margin-top: 30px;
+            display: none;
+            border: 2px solid #1ABC9C;
+        }
+
+        .admin-panel.active {
+            display: block;
+            animation: slideDown 0.4s ease-out;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .admin-controls {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 25px;
+            flex-wrap: wrap;
+        }
+
+        .admin-controls button {
+            padding: 10px 18px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .delete-comment {
+            background: linear-gradient(135deg, #E74C3C 0%, #C0392B 100%);
+            color: white;
+            box-shadow: 0 2px 8px rgba(231, 76, 60, 0.3);
+        }
+
+        .delete-comment:hover {
+            background: linear-gradient(135deg, #C0392B 0%, #A93226 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(231, 76, 60, 0.4);
+        }
+
+        /* ===== FORMULARIO DE SUBIDA DE VIDEOS ===== */
+        .video-upload-form {
+            background-color: white;
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            margin-top: 25px;
+            display: none;
+            border: 2px dashed #1ABC9C;
+            background-color: rgba(26, 188, 156, 0.03);
+        }
+
+        .video-upload-form.active {
+            display: block;
+            animation: slideUp 0.4s ease-out;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 1024px) {
+            .video-container {
+                grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+                gap: 20px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            body {
+                flex-direction: column;
+            }
+            
+            .sidebar {
+                width: 100%;
+                height: auto;
+                position: relative;
+                padding: 15px 0;
+            }
+            
+            .content {
+                margin-left: 0;
+                padding: 25px 20px;
+            }
+            
+            .menu-item {
+                margin: 3px 8px;
+                padding: 12px 15px;
+            }
+            
+            .video-container {
+                grid-template-columns: 1fr;
+                gap: 15px;
+            }
+            
+            .admin-controls {
+                flex-direction: column;
+            }
+            
+            .admin-controls button {
+                width: 100%;
+            }
+            
+            h2 {
+                font-size: 1.6rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .content {
+                padding: 20px 15px;
+            }
+            
+            .card, .forum-post, .video-item {
+                padding: 20px 15px;
+            }
+            
+            .upload-area {
+                padding: 25px 15px;
+            }
+            
+            .upload-icon {
+                font-size: 2.5rem;
+            }
+            
+            h2 {
+                font-size: 1.4rem;
+            }
+            
+            h3 {
+                font-size: 1.1rem;
+            }
+        }
+
+        /* ===== ESTILOS PARA SCROLLBAR ===== */
+        .sidebar::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .sidebar::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .sidebar::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 3px;
+        }
+
+        .sidebar::-webkit-scrollbar-thumb:hover {
+            background: rgba(255, 255, 255, 0.5);
+        }
+
+        /* ===== EFECTOS DE FOCO Y ACCESIBILIDAD ===== */
+        button:focus,
+        .menu-item:focus,
+        .form-control:focus {
+            outline: 2px solid #1ABC9C;
+            outline-offset: 2px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Barra lateral -->
+    <div class="sidebar">
+        <div class="sidebar-header">
+            <h1>Proyecto de Investigación de Negocios Ilícitos</h1>
+        </div>
+        
+        <div class="menu-item active" onclick="showSection('introduccion')">
+            <i>📄</i> Introducción
+        </div>
+        <div class="menu-item" onclick="showSection('videos')">
+            <i>🎬</i> Videos
+        </div>
+        <div class="menu-item" onclick="showSection('forum')">
+            <i>💬</i> Foro
+        </div>
+    </div>
+    
+    <!-- Contenido principal -->
+    <div class="content">
+        <!-- Sección de Introducción -->
+        <div id="introduccion" class="section active">
+            <h2>Introducción</h2>
+            
+            <div class="card">
+                <p>En Colombia existen varias economías ilegales que afectan el bienestar de la población. Este proyecto se centrará en tres de ellas: el narcotráfico, la trata de personas y el supuesto tráfico de órganos. Se eligió Bogotá como base de análisis porque allí convergen distintos consumidores, organizaciones criminales y autoridades que conviven con estos problemas.</p>
+                <p>Nuestro objetivo es comprender cómo operan estas actividades, quiénes son las principales víctimas y qué respuestas se han dado, para esto haremos una investigación en la cual entrevistaremos personas que han tenido alguna relación con estos negocios.</p>
+            </div>
+        </div>
+        
+        <!-- Sección de Videos -->
+        <div id="videos" class="section">
+            <h2>Videos de Investigación</h2>
+            
+            <div class="video-container" id="videos-list">
+                <!-- Los videos se cargarán aquí dinámicamente -->
+            </div>
+            
+            <!-- Área de subida de videos (solo visible para administrador) -->
+            <div class="video-upload-form" id="video-upload-form">
+                <h3>Subir Nuevo Video</h3>
+                <div class="form-group">
+                    <label>Título del Video</label>
+                    <input type="text" class="form-control" id="video-title" placeholder="Título del video">
+                </div>
+                <div class="form-group">
+                    <label>Descripción</label>
+                    <textarea class="form-control" id="video-description" placeholder="Descripción del video"></textarea>
+                </div>
+                <div class="form-group">
+                    <label>URL del Video (YouTube, Vimeo, etc.)</label>
+                    <input type="text" class="form-control" id="video-url" placeholder="https://...">
+                </div>
+                <button class="btn" id="submit-video">Subir Video</button>
+            </div>
+            
+            <!-- Botón para mostrar formulario de subida (solo admin) -->
+            <div id="upload-video-btn" style="display: none; margin-top: 20px;">
+                <button class="btn" onclick="toggleVideoUpload()">➕ Subir Nuevo Video</button>
+            </div>
+        </div>
+        
+        <!-- Sección de Foro -->
+        <div id="forum" class="section">
+            <h2>Foro de Discusión Anónima</h2>
+            
+            <div class="card">
+                <h3>Nueva Publicación</h3>
+                <div class="form-group">
+                    <label>Título</label>
+                    <input type="text" class="form-control" id="comment-title" placeholder="Título de tu publicación">
+                </div>
+                <div class="form-group">
+                    <label>Mensaje</label>
+                    <textarea class="form-control" id="comment-text" placeholder="Escribe tu opinión o comentario aquí..."></textarea>
+                </div>
+                <button class="btn" id="submit-comment">Publicar Anónimamente</button>
+            </div>
+            
+            <h3 style="margin-top: 30px;">Publicaciones Recientes</h3>
+            
+            <div id="comments-list">
+                <!-- Los comentarios se cargarán aquí -->
+            </div>
+        </div>
+        
+        <!-- Panel de administración (solo visible para el administrador) -->
+        <div class="admin-panel" id="admin-panel">
+            <h2>Panel de Administración</h2>
+            <div class="admin-controls">
+                <button id="toggle-admin" class="btn">Ocultar Panel</button>
+                <button id="clear-comments" class="delete-comment">Eliminar Todos los Comentarios</button>
+            </div>
+            <div id="admin-comments-list">
+                <!-- Lista de comentarios para administrar -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Verificar si es administrador
+        function isAdmin() {
+            return window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+        }
+
+        // Navegación entre secciones
+        function showSection(sectionId) {
+            // Ocultar todas las secciones
+            document.querySelectorAll('.section').forEach(section => {
+                section.classList.remove('active');
+            });
+            
+            // Mostrar la sección seleccionada
+            document.getElementById(sectionId).classList.add('active');
+            
+            // Actualizar el menú activo
+            document.querySelectorAll('.menu-item').forEach(item => {
+                item.classList.remove('active');
+            });
+            
+            event.currentTarget.classList.add('active');
+        }
+
+        // Sistema de comentarios
+        let comments = JSON.parse(localStorage.getItem('forumComments')) || [];
+        
+        // Videos iniciales con los enlaces proporcionados
+        let videos = JSON.parse(localStorage.getItem('researchVideos')) || [
+            {
+                title: "Análisis del Narcotráfico en Colombia",
+                description: "Entrevista a alguien que estuvo en el mundo de los negocios ilicitos.",
+                url: "https://www.youtube.com/embed/Mn-HulnAj9A"
+            },
+            {
+                title: "Trata de Personas en América Latina",
+                description: "Entrevista a alguien que estuvo en el mundo de los negocios ilicitos.",
+                url: "https://www.youtube.com/embed/QSRrAXALmMU"
+            }
+        ];
+
+        function renderComments() {
+            const commentsList = document.getElementById('comments-list');
+            const adminCommentsList = document.getElementById('admin-comments-list');
+            
+            commentsList.innerHTML = '';
+            adminCommentsList.innerHTML = '';
+            
+            if (comments.length === 0) {
+                commentsList.innerHTML = '<div class="forum-post"><p>No hay comentarios aún. Sé el primero en comentar.</p></div>';
+                adminCommentsList.innerHTML = '<p>No hay comentarios para administrar.</p>';
+                return;
+            }
+            
+            comments.forEach((comment, index) => {
+                const commentElement = document.createElement('div');
+                commentElement.className = 'forum-post';
+                commentElement.innerHTML = `
+                    <div class="post-header">
+                        <span>Anónimo</span>
+                        <span>${comment.date}</span>
+                    </div>
+                    <h3>${comment.title}</h3>
+                    <div class="post-content">
+                        <p>${comment.text}</p>
+                    </div>
+                `;
+                commentsList.appendChild(commentElement);
+                
+                // Para el panel de administración
+                const adminCommentElement = document.createElement('div');
+                adminCommentElement.className = 'forum-post';
+                adminCommentElement.innerHTML = `
+                    <div class="post-header">
+                        <span>Anónimo</span>
+                        <span>${comment.date}</span>
+                    </div>
+                    <h3>${comment.title}</h3>
+                    <div class="post-content">
+                        <p>${comment.text}</p>
+                    </div>
+                    <button class="delete-comment" data-index="${index}">Eliminar</button>
+                `;
+                adminCommentsList.appendChild(adminCommentElement);
+            });
+            
+            // Agregar event listeners para eliminar comentarios
+            document.querySelectorAll('.delete-comment[data-index]').forEach(button => {
+                button.addEventListener('click', function() {
+                    const index = parseInt(this.getAttribute('data-index'));
+                    deleteComment(index);
+                });
+            });
+        }
+
+        function renderVideos() {
+            const videosList = document.getElementById('videos-list');
+            videosList.innerHTML = '';
+            
+            if (videos.length === 0) {
+                videosList.innerHTML = '<p>No hay videos disponibles.</p>';
+                return;
+            }
+            
+            videos.forEach((video, index) => {
+                const videoElement = document.createElement('div');
+                videoElement.className = 'video-item';
+                videoElement.innerHTML = `
+                    <h3>${video.title}</h3>
+                    <div class="video-placeholder">
+                        ${video.url ? 
+                            `<iframe src="${video.url}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>` : 
+                            '[Video no disponible]'
+                        }
+                    </div>
+                    <p>${video.description}</p>
+                    ${isAdmin() ? `<button class="delete-comment" onclick="deleteVideo(${index})">Eliminar Video</button>` : ''}
+                `;
+                videosList.appendChild(videoElement);
+            });
+        }
+
+        function addComment(title, text) {
+            if (!text.trim()) return;
+            
+            const newComment = {
+                title: title || "Sin título",
+                text: text,
+                date: new Date().toLocaleString('es-CO')
+            };
+            
+            comments.push(newComment);
+            localStorage.setItem('forumComments', JSON.stringify(comments));
+            renderComments();
+        }
+
+        function addVideo(title, description, url) {
+            if (!title.trim()) return;
+            
+            // Convertir URL de YouTube a formato embed si es necesario
+            let embedUrl = url;
+            if (url.includes('youtube.com/watch?v=')) {
+                const videoId = url.split('v=')[1].split('&')[0];
+                embedUrl = `https://www.youtube.com/embed/${videoId}`;
+            } else if (url.includes('youtu.be/')) {
+                const videoId = url.split('youtu.be/')[1].split('?')[0];
+                embedUrl = `https://www.youtube.com/embed/${videoId}`;
+            }
+            
+            const newVideo = {
+                title: title,
+                description: description,
+                url: embedUrl,
+                date: new Date().toLocaleString('es-CO')
+            };
+            
+            videos.push(newVideo);
+            localStorage.setItem('researchVideos', JSON.stringify(videos));
+            renderVideos();
+            toggleVideoUpload(); // Ocultar formulario después de subir
+        }
+
+        function deleteComment(index) {
+            comments.splice(index, 1);
+            localStorage.setItem('forumComments', JSON.stringify(comments));
+            renderComments();
+        }
+
+        function deleteVideo(index) {
+            videos.splice(index, 1);
+            localStorage.setItem('researchVideos', JSON.stringify(videos));
+            renderVideos();
+        }
+
+        function clearAllComments() {
+            if (confirm('¿Estás seguro de que quieres eliminar todos los comentarios?')) {
+                comments = [];
+                localStorage.setItem('forumComments', JSON.stringify(comments));
+                renderComments();
+            }
+        }
+
+        function toggleVideoUpload() {
+            const form = document.getElementById('video-upload-form');
+            if (form.classList.contains('active')) {
+                form.classList.remove('active');
+            } else {
+                form.classList.add('active');
+            }
+        }
+
+        // Event listeners
+        document.getElementById('submit-comment').addEventListener('click', function() {
+            const title = document.getElementById('comment-title').value;
+            const text = document.getElementById('comment-text').value;
+            addComment(title, text);
+            document.getElementById('comment-title').value = '';
+            document.getElementById('comment-text').value = '';
+        });
+
+        document.getElementById('submit-video').addEventListener('click', function() {
+            const title = document.getElementById('video-title').value;
+            const description = document.getElementById('video-description').value;
+            const url = document.getElementById('video-url').value;
+            addVideo(title, description, url);
+            document.getElementById('video-title').value = '';
+            document.getElementById('video-description').value = '';
+            document.getElementById('video-url').value = '';
+        });
+
+        document.getElementById('clear-comments').addEventListener('click', clearAllComments);
+
+        // Panel de administración
+        const adminPanel = document.getElementById('admin-panel');
+        const toggleAdminBtn = document.getElementById('toggle-admin');
+        const uploadVideoBtn = document.getElementById('upload-video-btn');
+
+        function toggleAdminPanel() {
+            if (adminPanel.classList.contains('active')) {
+                adminPanel.classList.remove('active');
+                toggleAdminBtn.textContent = 'Mostrar Panel de Administración';
+            } else {
+                adminPanel.classList.add('active');
+                toggleAdminBtn.textContent = 'Ocultar Panel';
+            }
+        }
+
+        // Configurar elementos de administrador
+        if (isAdmin()) {
+            toggleAdminBtn.style.display = 'block';
+            uploadVideoBtn.style.display = 'block';
+            toggleAdminBtn.addEventListener('click', toggleAdminPanel);
+        } else {
+            toggleAdminBtn.style.display = 'none';
+            uploadVideoBtn.style.display = 'none';
+            adminPanel.style.display = 'none';
+        }
+
+        // Cargar contenido al iniciar
+        renderComments();
+        renderVideos();
+    </script>
+</body>
+</html>
