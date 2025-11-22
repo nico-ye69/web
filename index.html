@@ -507,6 +507,30 @@
             outline: 2px solid #1ABC9C;
             outline-offset: 2px;
         }
+
+        /* Estilos para el video destacado */
+        .featured-video {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            margin-bottom: 30px;
+            border: 2px solid #1ABC9C;
+        }
+
+        .featured-video h3 {
+            text-align: center;
+            color: #2C3E50;
+            margin-bottom: 20px;
+            font-size: 1.5rem;
+        }
+
+        .featured-video .video-description {
+            text-align: center;
+            color: #666;
+            margin-top: 15px;
+            font-style: italic;
+        }
     </style>
 </head>
 <body>
@@ -534,14 +558,34 @@
             <h2>Introducción</h2>
             
             <div class="card">
-                <p>En Colombia existen varias economías ilegales que afectan el bienestar de la población. Este proyecto se centrará en tres de ellas: el narcotráfico, la trata de personas y el supuesto tráfico de órganos. Se eligió Bogotá como base de análisis porque allí convergen distintos consumidores, organizaciones criminales y autoridades que conviven con estos problemas.</p>
-                <p>Nuestro objetivo es comprender cómo operan estas actividades, quiénes son las principales víctimas y qué respuestas se han dado, para esto haremos una investigación en la cual entrevistaremos personas que han tenido alguna relación con estos negocios.</p>
+                <p>En Colombia, la persistencia de economías ilegales constituye una herida abierta que socava el bienestar de la población y distorsiona el tejido social. Este proyecto de investigación se centra en tres de estos flagelos que, aunque operan en las sombras, tienen consecuencias tangibles y brutales en la vida cotidiana: el narcotráfico, la trata de personas y el supuesto tráfico de órganos. La elección de Bogotá como epicentro del análisis no es casual; como principal centro urbano del país, la capital funciona como un microcosmos donde convergen actores diversos: desde consumidores y víctimas vulnerables hasta complejas organizaciones criminales y las autoridades que enfrentan, con grandes desafíos, estos problemas.</p>
+
+                <p>Sin embargo, más allá de mapear las estructuras criminales, nuestro objetivo fundamental es humanizar la estadística y visibilizar lo invisible. Buscamos comprender no solo los mecanismos operativos de estas actividades, sino también arrojar luz sobre las historias silenciadas: quiénes son las principales víctimas, cómo sus vidas son fracturadas y de qué manera estas economías ilícitas se entrelazan con la realidad diaria de comunidades enteras, normalizando el miedo y limitando las oportunidades.</p>
+
+                <p>Para lograr este fin, nuestra metodología se basará en un acercamiento cualitativo y testimonial. Realizaremos entrevistas a personas que han tenido una relación directa o indirecta con estos negocios: desde víctimas sobrevivientes y familiares, hasta community managers de fincas raíz, expertos en seguridad, líderes comunitarios y funcionarios públicos. Escuchar estas voces firsthand es crucial para desentrañar la cadena de impacto humano que often queda oculta detrás de los titulares y los reportes oficiales.</p>
+
+                <p>La visión última de este proyecto es, precisamente, ponerle rostro y voz a un problema que muchos perciben como lejano o abstracto. Al documentar y divulgar estas realidades, aspiramos a generar una conciencia colectiva más aguda, que reconozca que el narcotráfico no es solo un cártel lejano, sino el joven reclutado en un barrio marginal; que la trata de personas no es solo un concepto, sino la desaparición de una mujer en una discoteca; y que el tráfico de órganos, más allá de ser un mito urbano, representa la máxima vulneración del cuerpo humano en contextos de extrema desesperación. Visibilizar estos problemas es el primer paso indispensable para que, como sociedad, podamos exigir respuestas más efectivas, construir comunidades más resilientes y proteger la dignidad humana que estas actividades buscan destruir.</p>
             </div>
         </div>
         
         <!-- Sección de Videos -->
         <div id="videos" class="section">
             <h2>Videos de Investigación</h2>
+            
+            <!-- Video destacado del proyecto final -->
+            <div class="featured-video">
+                <h3>Video Proyecto final</h3>
+                <div class="video-placeholder">
+                    <iframe 
+                        src="https://www.youtube.com/embed/zauv3vRR0cY" 
+                        frameborder="0" 
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                        allowfullscreen
+                        loading="lazy">
+                    </iframe>
+                </div>
+                <p class="video-description">Video final recopilatorio</p>
+            </div>
             
             <div class="video-container" id="videos-list">
                 <!-- Los videos se cargarán aquí dinámicamente -->
