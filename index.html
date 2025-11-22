@@ -559,8 +559,9 @@
                     <textarea class="form-control" id="video-description" placeholder="Descripción del video"></textarea>
                 </div>
                 <div class="form-group">
-                    <label>URL del Video (YouTube, Vimeo, etc.)</label>
-                    <input type="text" class="form-control" id="video-url" placeholder="https://...">
+                    <label>URL del Video (YouTube)</label>
+                    <input type="text" class="form-control" id="video-url" placeholder="https://www.youtube.com/watch?v=...">
+                    <small style="color: #666;">Pega el enlace completo de YouTube</small>
                 </div>
                 <button class="btn" id="submit-video">Subir Video</button>
             </div>
@@ -616,43 +617,108 @@
 
         // Navegación entre secciones
         function showSection(sectionId) {
-            // Ocultar todas las secciones
             document.querySelectorAll('.section').forEach(section => {
                 section.classList.remove('active');
             });
-            
-            // Mostrar la sección seleccionada
             document.getElementById(sectionId).classList.add('active');
             
-            // Actualizar el menú activo
             document.querySelectorAll('.menu-item').forEach(item => {
                 item.classList.remove('active');
             });
-            
             event.currentTarget.classList.add('active');
         }
 
-        // Sistema de comentarios
+        // Sistema de comentarios y videos
         let comments = JSON.parse(localStorage.getItem('forumComments')) || [];
         
-        // Videos iniciales con los enlaces proporcionados
+        // Comentarios iniciales del foro
+        const initialComments = [
+            {
+                title: "Expendio",
+                text: "Parce yo comencé en el negocio porque literal no había de otra. En mi casa no alcanzaba ni pa la comida y los parceros me dijeron que mover era lo más fácil. Arranqué con dos bolsitas y después ya tenía varios puntos. Me llené de plata ropa moto todo. Pero eso es un mundo que lo envuelve a uno feo. Un día me tocó escoger entre tumbar a un man o que me tumbaran a mi. Ahí entendí que eso no es vida, me fui saliendo como pude. Hoy vivo escondido porque sé que en cualquier momento me pueden cobrar.",
+                date: "21/11/2024, 11:17:47 p. m."
+            },
+            {
+                title: "Hurto",
+                text: "A mi me robaron saliendo del trabajo parce. Iba tranquila y de la nada salieron dos chinos en moto, me encañonaron y me dijeron que entregara el cel. Yo no me moví rápido y el man me dio un puñetazo en la cara. Les entregué todo, hasta la lonchera. Lo peor no fue perder las cosas, fue quedarme con ese miedo que no se quita.",
+                date: "21/11/2024, 11:18:21 p. m."
+            },
+            {
+                title: "Secuestro",
+                text: "Yo vi como se llevaron a la niña del barrio. Un carro blanco polarizado. Ella se subió porque una vieja le dijo que era pa un trabajo en otra ciudad. A los días la mamá la empezó a buscar y nadie sabía nada. Yo no dije nada al principio por miedo pero con el tiempo conté lo que había visto. Hasta hoy no sabemos dónde está.",
+                date: "21/11/2024, 11:18:55 p. m."
+            },
+            {
+                title: "Robo",
+                text: "Cuando era pelao me la pasaba levante que levante. Carteras celulares lo que saliera. Yo era rápido y nunca me cogían. Pero un día intenté robar a un señor mayor y el man se cayó, se pegó fuerte y quedó tirado. No sé si murió. Ese día dejé todo. Desde ahí cargo con esa culpa.",
+                date: "21/11/2024, 11:19:30 p. m."
+            },
+            {
+                title: "Varios guiros",
+                text: "Mi novio era el duro en una esquina. Yo sabía que eso estaba mal pero él me trataba bien. Un día llegaron unos manes de otro combo y lo bajaron. Me tocó irme del barrio sin tener nada que ver. Desde ahí no quiero saber nada de esa vida.",
+                date: "21/11/2024, 11:20:15 p. m."
+            },
+            {
+                title: "Trata de P.",
+                text: "Me prometieron trabajo de mesera en Medellín y terminé encerrada en una casa sin poder salir atendiendo tipos que no quiero recordar. Éramos como ocho mujeres. Una noche logré escapar porque dejaron abierta la ventana del baño. No he podido denunciar pero si puedo decir que una promesa bonita puede esconder el infierno.",
+                date: "21/11/2024, 11:21:05 p. m."
+            },
+            {
+                title: "Hurto mano armada",
+                text: "Una vez en un bus vi como le robaron el celular a un muchacho que estaba escuchando música. El ladrón fue tan rápido que nadie alcanzó a reaccionar. Lo triste fue ver al joven llorando porque ese celular era lo que usaba pa estudiar. Desde ese día ando más pendiente de todo.",
+                date: "21/11/2024, 11:22:10 p. m."
+            },
+            {
+                title: "Trata",
+                text: "Cuando tenía 17 una mujer se me acercó con una oferta de modelaje. Todo sonó perfecto viajes ropa plata. Cuando llegué al lugar entendí que no era eso. Alcancé a escaparme porque mi familia sospechó y me siguió. Desde ese día no confío tan fácil.",
+                date: "21/11/2024, 11:23:25 p. m."
+            },
+            {
+                title: "Expendio",
+                text: "Mi primo trabajaba repartiendo cajas. Parecía normal hasta que un día lo detuvieron porque sin saber llevaba droga adentro. El solo era empleado pero igual terminó pagando cárcel. A veces uno cree que eso nunca le va a pasar hasta que le pasa cerquita.",
+                date: "21/11/2024, 11:24:40 p. m."
+            },
+            {
+                title: "Robo",
+                text: "Me robaron mi bicicleta, la que usaba pa ir a estudiar. Yo la dejé parqueada cinco minutos y desapareció. Uno no entiende lo que valen las cosas hasta que se las quitan. Era solo una bici pero también era mi libertad.",
+                date: "21/11/2024, 11:25:55 p. m."
+            },
+            {
+                title: "Microtráfico",
+                text: "Fui parte de un grupo que transportaba cosas ilegales. Yo decía que no era nada malo porque pagaban bien y necesitaba para mi hija. Pero con el tiempo vi que estaba arriesgando mi vida y dejando un ejemplo muy malo. Dejé esa vida y ahora trabajo en obra. No es fácil pero duermo más tranquilo.",
+                date: "21/11/2024, 11:27:10 p. m."
+            },
+            {
+                title: "Drogas expendio",
+                text: "Yo vivía en una zona pesada allá por el centro por esos lados de pagadiarios. Mamá tenía otros dos pelaitos y casi siempre tocaba aguantar hambre porque mi papá se la pasaba era tomando. Ese man llegaba a hacer daño y yo ni se como ni cuando me empezó a pegarle a la cucha. Yo le cogí rencor a ese man porque ella no le hacía nada y él la trataba horrible. Pero un día simplemente no volvió y ya ahí me tocó abrir los ojos porque en la casa no había quien ayudara y yo era el mayor. Empecé a mirar la vuelta en el barrio y sabía que por ahí se movía harta plata, pero era plata maldita que se va rápida y dañaba la cabeza. Yo al principio solo hacía mandados, llevar cosas recoger plata sin saber bien qué era. Ya después me fui metiendo más y más porque la necesidad jala. Esa vida es acelerada y dura. Uno no descansa nunca, siempre pendiente, siempre asustado. Si llega plata llega feo y se va más rápido aún. Uno se siente grande pero en verdad no es nada. Terminé cayendo varias veces y también salí por vencimiento de términos un día que la ley no hizo bien el proceso. Pero eso no es suerte, eso es advertencia de que ya estoy muy hondo. Si algo puedo decirles es que si se van a meter a eso la piensen bien. No voy a decirles que no lo hagan porque cada quien hace con su vida lo que quiera. Pero sean responsables. Sepan que cuando uno entra ahí la familia ya no vale nada y en cualquier momento se la pueden matar por culpa de uno o por lo que otro invente. Esa vida no es vida. Yo perdí amigos familia infancia tiempo. Y aunque sigo aquí, aún no salgo del todo de esa sombra. Pero intento buscar otra manera de vivir. Si mi historia sirve pa algo, ojalá sea pa que otro no la repita.",
+                date: "21/11/2024, 11:30:00 p. m."
+            }
+        ];
+
+        // Videos iniciales con el nuevo video
         let videos = JSON.parse(localStorage.getItem('researchVideos')) || [
             {
+                title: "Análisis del narcotráfico en Colombia",
+                description: "Entrevista a alguien que estuvo en el mundo de los negocios ilícitos.",
+                url: "https://www.youtube.com/embed/ICI7FlSgaQA"
+            },
+            {
                 title: "Análisis del Narcotráfico en Colombia",
-                description: "Entrevista a alguien que estuvo en el mundo de los negocios ilicitos.",
+                description: "Documental sobre el impacto del narcotráfico en la sociedad colombiana y su relación con las economías ilícitas.",
                 url: "https://www.youtube.com/embed/Mn-HulnAj9A"
             },
             {
                 title: "Trata de Personas en América Latina",
-                description: "Entrevista a alguien que estuvo en el mundo de los negocios ilicitos.",
+                description: "Investigación sobre las redes de trata de personas y su operación en contextos urbanos como Bogotá.",
                 url: "https://www.youtube.com/embed/QSRrAXALmMU"
-            },
-            {
-                title: "Análisis del Narcotráfico en Colombia",
-                description: "Entrevista a alguien que estuvo en el mundo de los negocios ilicitos.",
-                url: "https://youtu.be/ICI7FlSgaQA"
             }
         ];
+
+        // Inicializar comentarios si no existen
+        if (comments.length === 0) {
+            comments = initialComments;
+            localStorage.setItem('forumComments', JSON.stringify(comments));
+        }
 
         function renderComments() {
             const commentsList = document.getElementById('comments-list');
@@ -682,7 +748,6 @@
                 `;
                 commentsList.appendChild(commentElement);
                 
-                // Para el panel de administración
                 const adminCommentElement = document.createElement('div');
                 adminCommentElement.className = 'forum-post';
                 adminCommentElement.innerHTML = `
@@ -699,7 +764,6 @@
                 adminCommentsList.appendChild(adminCommentElement);
             });
             
-            // Agregar event listeners para eliminar comentarios
             document.querySelectorAll('.delete-comment[data-index]').forEach(button => {
                 button.addEventListener('click', function() {
                     const index = parseInt(this.getAttribute('data-index'));
@@ -720,14 +784,31 @@
             videos.forEach((video, index) => {
                 const videoElement = document.createElement('div');
                 videoElement.className = 'video-item';
+                
+                let videoContent;
+                if (video.url && video.url.includes('youtube.com/embed/')) {
+                    videoContent = `
+                        <div class="video-placeholder">
+                            <iframe 
+                                src="${video.url}" 
+                                frameborder="0" 
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                                allowfullscreen
+                                loading="lazy">
+                            </iframe>
+                        </div>
+                    `;
+                } else {
+                    videoContent = `
+                        <div class="video-placeholder">
+                            <p>Video no disponible o enlace incorrecto</p>
+                        </div>
+                    `;
+                }
+                
                 videoElement.innerHTML = `
                     <h3>${video.title}</h3>
-                    <div class="video-placeholder">
-                        ${video.url ? 
-                            `<iframe src="${video.url}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>` : 
-                            '[Video no disponible]'
-                        }
-                    </div>
+                    ${videoContent}
                     <p>${video.description}</p>
                     ${isAdmin() ? `<button class="delete-comment" onclick="deleteVideo(${index})">Eliminar Video</button>` : ''}
                 `;
@@ -752,7 +833,7 @@
         function addVideo(title, description, url) {
             if (!title.trim()) return;
             
-            // Convertir URL de YouTube a formato embed si es necesario
+            // Conversión mejorada de URL de YouTube
             let embedUrl = url;
             if (url.includes('youtube.com/watch?v=')) {
                 const videoId = url.split('v=')[1].split('&')[0];
@@ -760,6 +841,9 @@
             } else if (url.includes('youtu.be/')) {
                 const videoId = url.split('youtu.be/')[1].split('?')[0];
                 embedUrl = `https://www.youtube.com/embed/${videoId}`;
+            } else if (!url.includes('youtube.com/embed/')) {
+                alert('Por favor, usa un enlace válido de YouTube');
+                return;
             }
             
             const newVideo = {
@@ -772,7 +856,7 @@
             videos.push(newVideo);
             localStorage.setItem('researchVideos', JSON.stringify(videos));
             renderVideos();
-            toggleVideoUpload(); // Ocultar formulario después de subir
+            toggleVideoUpload();
         }
 
         function deleteComment(index) {
@@ -840,7 +924,6 @@
             }
         }
 
-        // Configurar elementos de administrador
         if (isAdmin()) {
             toggleAdminBtn.style.display = 'block';
             uploadVideoBtn.style.display = 'block';
@@ -857,4 +940,3 @@
     </script>
 </body>
 </html>
-
